@@ -24,58 +24,20 @@ export type ArticleProps = {
 	setArticleState: (value: ArticleStateType) => void;
 };
 
-export const ArticleParamsForm = (props: ArticleProps) => {
-	const { setArticleState } = props;
+export const ArticleParamsForm = ({ setArticleState }: ArticleProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const ref = useRef<HTMLFormElement>(null);
 
 	const [asideFormState, setAsideFormState] =
 		useState<ArticleStateType>(defaultArticleState);
 
-	const setFontFamily = (props: OptionType) => {
-		setAsideFormState({
-			fontFamilyOption: props,
-			fontSizeOption: asideFormState.fontSizeOption,
-			fontColor: asideFormState.fontColor,
-			backgroundColor: asideFormState.backgroundColor,
-			contentWidth: asideFormState.contentWidth,
-		});
-	};
-	const setFontSize = (props: OptionType) => {
-		setAsideFormState({
-			fontFamilyOption: asideFormState.fontFamilyOption,
-			fontSizeOption: props,
-			fontColor: asideFormState.fontColor,
-			backgroundColor: asideFormState.backgroundColor,
-			contentWidth: asideFormState.contentWidth,
-		});
-	};
-	const setFontColor = (props: OptionType) => {
-		setAsideFormState({
-			fontFamilyOption: asideFormState.fontFamilyOption,
-			fontSizeOption: asideFormState.fontSizeOption,
-			fontColor: props,
-			backgroundColor: asideFormState.backgroundColor,
-			contentWidth: asideFormState.contentWidth,
-		});
-	};
-	const setBackgroundColor = (props: OptionType) => {
-		setAsideFormState({
-			fontFamilyOption: asideFormState.fontFamilyOption,
-			fontSizeOption: asideFormState.fontSizeOption,
-			fontColor: asideFormState.fontColor,
-			backgroundColor: props,
-			contentWidth: asideFormState.contentWidth,
-		});
-	};
-	const setWidth = (props: OptionType) => {
-		setAsideFormState({
-			fontFamilyOption: asideFormState.fontFamilyOption,
-			fontSizeOption: asideFormState.fontSizeOption,
-			fontColor: asideFormState.fontColor,
-			backgroundColor: asideFormState.backgroundColor,
-			contentWidth: props,
-		});
+	const handleChange = (key: string) => {
+		return (value: OptionType) => {
+			setAsideFormState({
+				...asideFormState,
+				[key]: value,
+			});
+		};
 	};
 
 	const toggleState = () => {
@@ -113,33 +75,33 @@ export const ArticleParamsForm = (props: ArticleProps) => {
 						title='шрифт'
 						selected={asideFormState.fontFamilyOption}
 						options={fontFamilyOptions}
-						onChange={setFontFamily}
+						onChange={handleChange('fontFamilyOption')}
 					/>
 					<RadioGroup
 						title='размер шрифта'
 						name='fontSize'
 						selected={asideFormState.fontSizeOption}
 						options={fontSizeOptions}
-						onChange={setFontSize}
+						onChange={handleChange('fontSizeOption')}
 					/>
 					<Select
 						title='цвет шрифта'
 						selected={asideFormState.fontColor}
 						options={fontColors}
-						onChange={setFontColor}
+						onChange={handleChange('fontColor')}
 					/>
 					<Separator></Separator>
 					<Select
 						title='цвет фона'
 						selected={asideFormState.backgroundColor}
 						options={backgroundColors}
-						onChange={setBackgroundColor}
+						onChange={handleChange('backgroundColor')}
 					/>
 					<Select
 						title='ширина контента'
 						selected={asideFormState.contentWidth}
 						options={contentWidthArr}
-						onChange={setWidth}
+						onChange={handleChange('contentWidth')}
 					/>
 					<div className={styles.bottomContainer}>
 						<Button
